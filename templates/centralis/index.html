@@ -1,0 +1,58 @@
+{% extends '_partials/base.html' %}
+{% block title %}
+    Home
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class="ui headers center">Centraliza todas tus cuentas en un solo lugar</h1>
+<br>
+<h3>Conecta con tu institución financiera...</h3>
+{% if institutions %}
+    <div class="ui grid">
+        {% for institution in institutions %}
+            <div class="four wide column">
+                <div class="ui card">
+                    <div class="image">
+
+                        <div class="ui two column grid">
+                            <div class="column">
+                              <div class="ui fluid image">
+                                <div class="ui teal ribbon label">
+                                  {{institution.country_code}}
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        {% if institution.logo %}
+                            <img class="image" height: 150px; src= {{institution.logo}} />
+                        {% else %}
+                            <img class="logo" src= {% static 'img/image-not-found.png' %} />
+                        {% endif %} 
+                    </div>
+                    <div class="content">
+                    <div class="header">{{institution.display_name}}</div>
+                    <div class="meta">Country: {{institution.country_code}}</div>
+                    <br>
+                    <div class="header">
+                        <div class="meta">{{institution.type}}</div>
+                    </div>
+                    <br>
+                    <div class="extra">
+                        {% for resource in institution.resources %}
+                            <div class="ui label"><i class="check icon"></i>{{resource}}</div>
+                        {% endfor %}
+                    </div>
+                    </div>
+                    <div class="extra content">
+                        <a href={% url 'conect' institution.id %} class="ui button primary">Conectar</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock content %}

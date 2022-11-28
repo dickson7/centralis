@@ -1,0 +1,79 @@
+{% extends '_partials/base.html' %}
+{% block title %}
+    Transaciones 
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+
+<h1 class= "ui headers">Lista de transacciones</h1>
+{% include  "_partials/messages.html" %}
+{% if transactions %}
+    <table class= "ui table">
+        <thead>
+            <tr>
+                <th>Status</th>
+                <th>Monto</th>
+                <th>Tipo</th>
+                <th>Fecha</th>
+                <th>Referencia</th>
+                <th>Descripción</th>
+                <th>Comercio</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for transaction in transactions %}
+                <tr>
+                    
+                    <td>
+                        {% if transaction.status == "PROCESSED" %}
+                            <div class="ui green horizontal label">{{transaction.status}}</div>
+                        {% elif transaction.status == "PENDING" %}
+                            <div class="ui yellow horizontal label">{{transaction.status}}</div>
+                        {% else %}
+                            <div class="ui red horizontal label">{{transaction.status}}</div>
+                        {% endif %} 
+                    </td>
+                    
+                    <td>{{transaction.amount}}</td>
+                    <td>
+                        {% if transaction.type == "INFLOW" %}
+                            <div class="ui left icon input ">
+                                <i class="chevron circle down icon green"></i>
+                            </div>
+                        {% else %}
+                            <div class="ui left icon input ">
+                                <i class="chevron circle up icon red"></i>
+                            </div>
+                        {% endif %} 
+                    </td>
+                    <td>{{transaction.date}}</td>
+                    <td>{{transaction.reference}}</td>
+                    <td>{{transaction.description}}</td>
+                    <td>{{transaction.merchant}}</td>
+                  
+                </tr>
+            {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </tfoot>
+    </table>
+{% else %}
+    <div class="ui message">
+        <div class="header">
+            Aún no hay elementos
+        </div>
+        <p>Estamos trabajando para conectarnos con tu entidad financiera</p>
+    </div>
+{% endif %}
+{% endblock content %}

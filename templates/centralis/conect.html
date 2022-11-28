@@ -1,0 +1,81 @@
+{% extends '_partials/base.html' %}
+{% block title %}
+    Conect
+{% endblock title %}
+
+{% load static %}
+
+{% block content %}
+<div class="ui grid">
+    <div class="four wide column"></div>
+    <div class="eight wide column">
+      <div class="ui middle aligned center aligned grid">
+        <div class="column mt-5">
+            <div class="ui card">
+            <div class="image">
+                <div class="ui two column grid">
+                    <div class="column">
+                      <div class="ui fluid image">
+                        <div class="ui teal ribbon label">
+                          {{institution.country_code}}
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                {% if institution.logo %}
+                    <img class="image" height: 150px; src= {{institution.logo}} />
+                {% else %}
+                    <img class="logo" src= {% static 'img/image-not-found.png' %} />
+                {% endif %} 
+            </div>
+        </div>
+  
+            {% include '_partials/messages.html'%}
+  
+  
+          <form class="ui large form" method="post" action={% url 'connect-account' %}>
+            {% csrf_token %}
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <input type="hidden" name="id" value="{{institution.id}}" readonly=readonly />
+                    </div>
+                </div>
+            <div class="field">
+                <div class="ui left icon input">
+                    <i class="check icon"></i>
+                    <input type="text" name="institution" value="{{institution.name}}" readonly=readonly />
+                </div>
+            </div>
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="user icon"></i>
+                  <input type="text" name="username" value="{{data.username}}"  placeholder="Username" />
+                </div>
+              </div>
+  
+              <div class="field">
+                <div class="ui left icon input">
+                  <i class="lock icon"></i>
+                  <input type="password" name="password" placeholder="Password" />
+                </div>
+              </div>
+              
+              </div>
+              <button class="ui fluid large teal submit button">Conectar</button>
+            </div>
+  
+          </form>
+        </div>
+  
+          <div class="ui message">Conexion con entidad financiera, inicia con tus credenciales.</div>
+      <div class="four wide column"></div>
+    </div>
+  </div>
+
+
+
+
+
+
+{% endblock content %}
