@@ -9,10 +9,11 @@ from .conect_belvo import ConectBelvo
 from datetime import date, datetime, timedelta
 
 def index(request):
+    """main view showing all available institutions 
+
+    """
     client = ConectBelvo()
     all_institutions = client.all_institutions()
-    # for institution in all_institutions:
-    #     print(institution["icon_logo"])
 
     context = {"institutions":all_institutions}
     
@@ -20,6 +21,15 @@ def index(request):
 
 
 def conect(request, id):
+    """view to connect to the financial institution
+
+    Args:
+        request (_type_): _description_
+        id (str): institution id
+
+    Returns:
+        dict: info intitution
+    """
     client = ConectBelvo()
     institution = client.get_intitution(institution_id=id)
     context = {'institution': institution}
@@ -28,6 +38,11 @@ def conect(request, id):
 
 
 def connect_account(request):
+    """view to login to connect with financial institution
+
+    Returns:
+        dict: link
+    """
     if request.method == "POST":
         context = {'has_error': False, 'data':request.POST}
         id = request.POST.get('id')
@@ -64,6 +79,14 @@ def connect_account(request):
 
 
 def transactions_account(request, id):
+    """view showing all transactions with the selected entity
+
+    Args:
+        id (str): intritution id
+
+    Returns:
+        dict: details transactions
+    """
     client = ConectBelvo()
     transactions = client.all_transactions(link=id)
     response = []
